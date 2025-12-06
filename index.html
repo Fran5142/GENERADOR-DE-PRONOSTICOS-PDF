@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GENERACION DE PRONÓSTICOS METEOROLÓGICOS</title>
+
   <style>
     /* ======== ESTILOS GENERALES ======== */
     body {
@@ -111,6 +112,9 @@
       backdrop-filter: blur(8px);
       animation: aparecer 1s ease-in-out;
       z-index: 2;
+
+      /* 💥 ESTA ES LA ÚNICA MODIFICACIÓN */
+      margin-bottom: 90px; /* deja espacio para el footer */
     }
 
     button {
@@ -134,15 +138,18 @@
 
     /* ======== PIE DE PÁGINA ======== */
     footer {
-      position: absolute;
-      bottom: 15px;
+      position: fixed;     /* Fijo abajo */
+      bottom: 0;
+      left: 0;
       width: 100%;
+      padding: 12px 0;
       text-align: center;
       font-size: 15px;
       color: #d6ecff;
-      letter-spacing: 0.3px;
-      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
-      z-index: 2;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(6px);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 10;
     }
 
     /* ======== ANIMACIÓN DE APARICIÓN ======== */
@@ -151,6 +158,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
   </style>
+
 </head>
 <body>
 
@@ -165,19 +173,20 @@
   </header>
 
   <div class="botones">
-    <button onclick="window.open('https://fran5142.github.io/Pronsticos-puertomontt-maullin-PDF/', '_blank')">PUERTO MONTT - MAULLÍN</button>
+    <button onclick="window.open('https://fran5142.github.io/Corrector-avanzado-meteorol-gico/', '_blank')">CORRECTOR PRONÓSTICOS</button>
 
-    <button onclick="window.open('https://fran5142.github.io/Pronosticos-chacao-chacabuco-PDF/', '_blank')">CHACAO - CHACABUCO</button>
+    <button onclick="window.open('https://fran5142.github.io/Traductor-meteorol-gico-avanzado/', '_blank')">TRADUCTOR AVISOS</button>
 
-    <button onclick="window.open('https://fran5142.github.io/Pronosticos-guafo-penas-PDF/', '_blank')">GUAFO - PENAS - BALLESTA - QUELLÓN Y MELINKA</button>
+    <button onclick="window.open('https://fran5142.github.io/Pronsticos-puertomontt-maullin-PDF/', '_blank')">PUERTO MONTT - MAULLÍN (PDF)</button>
 
-    <button onclick="window.open('https://fran5142.github.io/Pronosticos-chiloe-oriental-PDF/', '_blank')">CHILOE ORIENTAL</button>
+    <button onclick="window.open('https://fran5142.github.io/Pronosticos-chacao-chacabuco-PDF/', '_blank')">CHACAO - CHACABUCO (PDF)</button>
 
+    <button onclick="window.open('https://fran5142.github.io/Pronosticos-guafo-penas-PDF/', '_blank')">PENAS - GUAFO - BALLESTA - QUELLON Y MELINKA (PDF)</button>
+
+    <button onclick="window.open('https://fran5142.github.io/Pronosticos-chiloe-oriental-PDF/', '_blank')">CHILOE ORIENTAL (PDF)</button>
   </div>
 
   <footer>Creado por Cabo 2º (MET.) Francisco Salas Muñoz</footer>
 
 </body>
 </html>
-
-
