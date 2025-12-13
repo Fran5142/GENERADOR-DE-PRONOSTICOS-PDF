@@ -1,192 +1,139 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GENERACION DE PRONÓSTICOS METEOROLÓGICOS</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENERADOR DE PRONOSTICOS</title>
 
-  <style>
-    /* ======== ESTILOS GENERALES ======== */
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      font-family: "Segoe UI", Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      color: #ffffff;
-      background: radial-gradient(circle at bottom, #001f3f 0%, #000814 100%);
-      overflow: hidden;
-    }
+<style>
+/* Reset básico */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
-    /* ======== ANIMACIÓN DE ESTRELLAS ======== */
-    .estrellas, .estrellas2, .estrellas3 {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-repeat: repeat;
-      background-size: contain;
-      z-index: 0;
-      pointer-events: none;
-      animation: moverEstrellas 200s linear infinite;
-    }
+/* ===== MENÚ PRINCIPAL ===== */
+nav {
+    background-color: #0b1f3a; /* Azul marino */
+}
 
-    .estrellas {
-      background-image: radial-gradient(2px 2px at 20px 30px, white, transparent),
-                        radial-gradient(1px 1px at 50px 80px, white, transparent),
-                        radial-gradient(2px 2px at 150px 120px, white, transparent),
-                        radial-gradient(1px 1px at 250px 200px, white, transparent),
-                        radial-gradient(2px 2px at 300px 400px, white, transparent);
-      opacity: 0.5;
-      animation-duration: 300s;
-    }
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
 
-    .estrellas2 {
-      background-image: radial-gradient(1px 1px at 100px 150px, white, transparent),
-                        radial-gradient(2px 2px at 200px 250px, white, transparent),
-                        radial-gradient(1px 1px at 400px 300px, white, transparent),
-                        radial-gradient(2px 2px at 600px 500px, white, transparent),
-                        radial-gradient(1px 1px at 700px 600px, white, transparent);
-      opacity: 0.4;
-      animation-duration: 250s;
-    }
+nav ul li {
+    position: relative;
+}
 
-    .estrellas3 {
-      background-image: radial-gradient(2px 2px at 150px 80px, white, transparent),
-                        radial-gradient(1px 1px at 350px 400px, white, transparent),
-                        radial-gradient(2px 2px at 550px 200px, white, transparent),
-                        radial-gradient(1px 1px at 800px 300px, white, transparent),
-                        radial-gradient(1px 1px at 900px 700px, white, transparent);
-      opacity: 0.3;
-      animation-duration: 180s;
-    }
+nav ul li a {
+    display: block;
+    padding: 15px 20px;
+    color: #ffffff;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
 
-    @keyframes moverEstrellas {
-      from { transform: translateY(0); }
-      to { transform: translateY(-2000px); }
-    }
+/* Hover menú principal */
+nav ul li a:hover {
+    background-color: #123c6d;
+}
 
-    /* ======== ENCABEZADO ======== */
-    header {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      padding: 40px 0 20px 0;
-      z-index: 2;
-    }
+/* ===== SUBMENÚ ===== */
+nav ul li ul {
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    background-color: #102a4c;
+    min-width: 200px;
+    z-index: 1000;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
 
-    header img {
-      position: absolute;
-      left: 60px;
-      top: 60px;
-      width: 200px;
-      height: auto;
-    }
+nav ul li ul li a {
+    padding: 12px 16px;
+    color: #ffffff;
+}
 
-    h1 {
-      font-size: 28px;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      text-align: center;
-      color: #ffffff;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4), 0 0 10px rgba(255, 255, 255, 0.3);
-    }
+/* Hover submenú */
+nav ul li ul li a:hover {
+    background-color: #1c4f8a;
+}
 
-    /* ======== SECCIÓN DE BOTONES ======== */
-    .botones {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      width: 320px;
-      background: rgba(255, 255, 255, 0.08);
-      padding: 30px;
-      border-radius: 14px;
-      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(8px);
-      animation: aparecer 1s ease-in-out;
-      z-index: 2;
+/* Mostrar submenú al pasar el mouse */
+nav ul li:hover > ul {
+    display: block;
+}
 
-      /* 💥 ESTA ES LA ÚNICA MODIFICACIÓN */
-      margin-bottom: 90px; /* deja espacio para el footer */
-    }
+/* ===== CONTENIDO ===== */
+div {
+    padding: 20px;
+}
 
-    button {
-      background: linear-gradient(180deg, #00aaff, #0074d9);
-      color: #ffffff;
-      border: none;
-      border-radius: 10px;
-      font-size: 18px;
-      font-weight: bold;
-      padding: 14px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    }
+/* ===== IMAGEN ===== */
+.imagen-principal {
+    max-width: 450px;
+    width: 100%;
+    display: block;
+    margin: 0 auto 20px auto;
+    opacity: 1; /* ← Ajusta este valor */
 
-    button:hover {
-      background: linear-gradient(180deg, #33ccff, #0088ff);
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(0, 180, 255, 0.6);
-    }
+}
 
-    /* ======== PIE DE PÁGINA ======== */
-    footer {
-      position: fixed;     /* Fijo abajo */
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      padding: 12px 0;
-      text-align: center;
-      font-size: 15px;
-      color: #d6ecff;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(6px);
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      z-index: 10;
-    }
+/* ===== PIE DE PÁGINA ===== */
+footer {
+    background-color: #0b1f3a;
+    color: #ffffff;
+    text-align: center;
+    padding: 12px 10px;
+    font-size: 14px;
+    border-top: 2px solid #123c6d;
 
-    /* ======== ANIMACIÓN DE APARICIÓN ======== */
-    @keyframes aparecer {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+}
 
+</style>
 </head>
+
 <body>
 
-  <!-- Capas del cielo estrellado -->
-  <div class="estrellas"></div>
-  <div class="estrellas2"></div>
-  <div class="estrellas3"></div>
+<!-- Menú de navegación -->
+<nav>
+    <ul>
+        <li>
+            <a href="#">Pronósticos Meteorológicos PDF</a>
+            <ul>
+                <li><a href="https://fran5142.github.io/Pronsticos-puertomontt-maullin-PDF/" target="_blank">Puerto Montt - Maullín</a></li>
+                <li><a href="https://fran5142.github.io/Pronosticos-chacao-chacabuco-PDF/" target="_blank">Chacao - Chacabuco</a></li>
+                <li><a href="https://fran5142.github.io/Pronosticos-guafo-penas-PDF/" target="_blank">Penas - Guafo - Ballesta - Quellón y Melinka</a></li>
+                <li><a href="https://fran5142.github.io/Pronosticos-chiloe-oriental-PDF/" target="_blank">Chiloé Oriental</a></li>
+            </ul>
+        </li>
 
-  <header>
-    <img src="https://ia800206.us.archive.org/22/items/imagen_mejorada_3D/LOGO%20METEOPMO.png" alt="Logo meteorológico">
-    <h1>GENERACIÓN DE PRONÓSTICOS METEOROLÓGICOS</h1>
-  </header>
+        <li><a href="https://fran5142.github.io/Corrector-avanzado-meteorol-gico/" target="_blank">Corrector de Pronósticos</a></li>
+        <li><a href="https://fran5142.github.io/Traductor-meteorol-gico-avanzado/" target="_blank">Traductor Avisos</a></li>
+        <li><a href="https://fran5142.github.io/GENERADOR-AVISOS-PDF/" target="_blank">Generador de Avisos PDF</a></li>
+    </ul>
+</nav>
 
-  <div class="botones">
-    <button onclick="window.open('https://fran5142.github.io/Corrector-avanzado-meteorol-gico/', '_blank')">CORRECTOR PRONÓSTICOS</button>
+<!-- Contenido principal -->
+<div>
+    <h1>Bienvenido a la página</h1>
+    <p>Selecciona una opción del menú para explorar más contenido.</p>
 
-    <button onclick="window.open('https://fran5142.github.io/Traductor-meteorol-gico-avanzado/', '_blank')">TRADUCTOR AVISOS</button>
+<img src="https://ia600206.us.archive.org/22/items/imagen_mejorada_3D/LOGO%20METEOPMO.png" alt="Imagen PNG" class="imagen-principal">
 
-    <button onclick="window.open('https://fran5142.github.io/Pronsticos-puertomontt-maullin-PDF/', '_blank')">PUERTO MONTT - MAULLÍN (PDF)</button>
+<!-- Pie de página -->
+<footer>
+    Creado por Cabo º (Met.) Francisco Salas Muñoz
+</footer>
 
-    <button onclick="window.open('https://fran5142.github.io/Pronosticos-chacao-chacabuco-PDF/', '_blank')">CHACAO - CHACABUCO (PDF)</button>
-
-    <button onclick="window.open('https://fran5142.github.io/Pronosticos-guafo-penas-PDF/', '_blank')">PENAS - GUAFO - BALLESTA - QUELLON Y MELINKA (PDF)</button>
-
-    <button onclick="window.open('https://fran5142.github.io/Pronosticos-chiloe-oriental-PDF/', '_blank')">CHILOE ORIENTAL (PDF)</button>
-  </div>
-
-  <footer>Creado por Cabo 2º (MET.) Francisco Salas Muñoz</footer>
+</div>
 
 </body>
 </html>
