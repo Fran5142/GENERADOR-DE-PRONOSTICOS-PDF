@@ -1,139 +1,265 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GENERADOR DE PRONOSTICOS</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CENTRO METEOROLÓGICO PUERTO MONTT - INICIO</title>
 
-<style>
-/* Reset básico */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
+    <style>
+        /* =========================================
+           1. VARIABLES Y BASE (ESTILO MODERNO)
+           ========================================= */
+        :root {
+            --azul-oscuro: #000814;
+            --azul-medio: #001d3d;
+            --azul-brillante: #003566;
+            --cian: #4cc9f0;
+            --blanco: #e0e0e0;
+        }
 
-/* ===== MENÚ PRINCIPAL ===== */
-nav {
-    background-color: #0b1f3a; /* Azul marino */
-}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--azul-oscuro);
+            background-image: radial-gradient(circle at top, var(--azul-medio) 0%, var(--azul-oscuro) 100%);
+            background-attachment: fixed;
+            color: var(--blanco);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
+        /* =========================================
+           2. MENÚ DE NAVEGACIÓN (MODERNO)
+           ========================================= */
+        nav {
+            background: rgba(0, 29, 61, 0.95);
+            border-bottom: 2px solid var(--cian);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
 
-nav ul li {
-    position: relative;
-}
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
 
-nav ul li a {
-    display: block;
-    padding: 15px 20px;
-    color: #ffffff;
-    text-decoration: none;
-    transition: background 0.3s ease;
-}
+        nav ul li { position: relative; }
 
-/* Hover menú principal */
-nav ul li a:hover {
-    background-color: #123c6d;
-}
+        nav ul li a {
+            display: block;
+            padding: 18px 25px;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
 
-/* ===== SUBMENÚ ===== */
-nav ul li ul {
-    display: none;
-    position: absolute;
-    top: 50px;
-    left: 0;
-    background-color: #102a4c;
-    min-width: 200px;
-    z-index: 1000;
-    border-radius: 6px;
-    overflow: hidden;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
-}
+        nav ul li a:hover {
+            color: var(--cian);
+            background: rgba(76, 201, 240, 0.1);
+        }
 
-nav ul li ul li a {
-    padding: 12px 16px;
-    color: #ffffff;
-}
+        /* Submenú Desplegable */
+        nav ul li ul {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--azul-medio);
+            min-width: 280px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+            border-radius: 0 0 8px 8px;
+            border: 1px solid var(--azul-brillante);
+            padding: 10px 0;
+        }
 
-/* Hover submenú */
-nav ul li ul li a:hover {
-    background-color: #1c4f8a;
-}
+        nav ul li:hover > ul { display: block; animation: fadeIn 0.3s ease; }
 
-/* Mostrar submenú al pasar el mouse */
-nav ul li:hover > ul {
-    display: block;
-}
+        nav ul li ul li a {
+            padding: 12px 20px;
+            text-transform: none;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
 
-/* ===== CONTENIDO ===== */
-div {
-    padding: 20px;
-}
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* ===== IMAGEN ===== */
-.imagen-principal {
-    max-width: 450px;
-    width: 100%;
-    display: block;
-    margin: 0 auto 20px auto;
-    opacity: 1; /* ← Ajusta este valor */
+        /* =========================================
+           3. CONTENIDO PRINCIPAL
+           ========================================= */
+        .hero-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
 
-}
+        .contenedor-logo {
+            position: relative;
+            margin-bottom: 30px;
+        }
 
-/* ===== PIE DE PÁGINA ===== */
-footer {
-    background-color: #0b1f3a;
-    color: #ffffff;
-    text-align: center;
-    padding: 12px 10px;
-    font-size: 14px;
-    border-top: 2px solid #123c6d;
+        .imagen-principal {
+            max-width: 320px;
+            height: auto;
+            filter: drop-shadow(0 0 20px rgba(76, 201, 240, 0.5));
+            transition: transform 0.5s ease;
+        }
 
-}
+        .imagen-principal:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
 
-</style>
+        h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 0 0 10px rgba(76, 201, 240, 0.3);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin: 0;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 0 0 10px rgba(76, 201, 240, 0.3);
+        }
+
+        .subtitulo {
+            color: var(--cian);
+            font-size: 1.2rem;
+            margin-top: 10px;
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+
+        .separador {
+            width: 100px;
+            height: 4px;
+            background: var(--cian);
+            margin: 25px 0;
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--cian);
+        }
+
+        /* Tarjetas de bienvenida rápidas */
+        .grid-accesos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+            margin-top: 40px;
+        }
+
+        .tarjeta-acceso {
+            background: rgba(0, 53, 102, 0.4);
+            border: 1px solid var(--azul-brillante);
+            padding: 20px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+        }
+
+        .tarjeta-acceso:hover {
+            background: var(--azul-brillante);
+            border-color: var(--cian);
+            transform: translateY(-5px);
+        }
+
+        /* =========================================
+           4. PIE DE PÁGINA (ESTILO ANTERIOR)
+           ========================================= */
+        footer {
+            background-color: var(--azul-medio);
+            color: var(--cian);
+            text-align: center;
+            padding: 20px;
+            font-size: 16px;
+            font-weight: 700;
+            font-style: italic; /* Cursiva como pediste */
+            border-top: 3px solid var(--cian);
+            letter-spacing: 1px;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
+        }
+
+    </style>
 </head>
 
 <body>
 
-<!-- Menú de navegación -->
-<nav>
-    <ul>
-        <li>
-            <a href="#">Pronósticos Meteorológicos PDF</a>
-            <ul>
-                <li><a href="https://fran5142.github.io/Pronsticos-puertomontt-maullin-PDF/" target="_blank">Puerto Montt - Maullín</a></li>
-                <li><a href="https://fran5142.github.io/Pronosticos-chacao-chacabuco-PDF/" target="_blank">Chacao - Chacabuco</a></li>
-                <li><a href="https://fran5142.github.io/Pronosticos-guafo-penas-PDF/" target="_blank">Penas - Guafo - Ballesta - Quellón y Melinka</a></li>
-                <li><a href="https://fran5142.github.io/Pronosticos-chiloe-oriental-PDF/" target="_blank">Chiloé Oriental</a></li>
-            </ul>
-        </li>
+    <nav>
+        <ul>
+            <li>
+                <a href="#">📋 Pronósticos PDF</a>
+                <ul>
+                    <li><a href="https://fran5142.github.io/PRONOSTICOS-LOCALES-PMO-PDF/" target="_blank">CENMETEOPMO PDF</a></li>
 
-        <li><a href="https://fran5142.github.io/Corrector-avanzado-meteorol-gico/" target="_blank">Corrector de Pronósticos</a></li>
-        <li><a href="https://fran5142.github.io/Traductor-meteorol-gico-avanzado/" target="_blank">Traductor Avisos</a></li>
-        <li><a href="https://fran5142.github.io/GENERADOR-AVISOS-PDF/" target="_blank">Generador de Avisos PDF</a></li>
-    </ul>
-</nav>
+                </ul>
+            </li>
+            <li><a href="https://fran5142.github.io/Corrector-avanzado-meteorol-gico/" target="_blank">🛠️ Corrector</a></li>
+            <li><a href="https://fran5142.github.io/Traductor-meteorol-gico-avanzado/" target="_blank">🔤 Traductor</a></li>
+            <li><a href="https://fran5142.github.io/GENERADOR-AVISOS-PDF/" target="_blank">⚠️ Generador Avisos</a></li>
+            <li><a href="https://fran5142.github.io/CONVERTIDOR-EXEL-PRONOSTICOS-QUINZONA/" target="_blank">📈 BAHIAS EXEL </a></li>
+            <li><a href="https://fran5142.github.io/CONVERTIDOR-EXEL-PRONOSTICO-CHILOE/" target="_blank">📈 CHILOE EXEL</a></li>
+        </ul>
+    </nav>
 
-<!-- Contenido principal -->
-<div>
-    <h1>Bienvenido a la página</h1>
-    <p>Selecciona una opción del menú para explorar más contenido.</p>
+    <div class="hero-section">
+        <div class="contenedor-logo">
+            <img src="https://ia600206.us.archive.org/22/items/imagen_mejorada_3D/LOGO%20METEOPMO.png" alt="Logo Meteo PMO" class="imagen-principal">
+        </div>
+        
+        <h1>CENTRO ZONAL DE METEOROLOGÍA MARINA DE</h1>
+        <h2>PUERTO MONTT</h2>
+        <div class="subtitulo">85802</div>
+        
+        <div class="separador"></div>
+        
+        <p>Plataforma interna de gestión y generación de productos meteorológicos.</p>
 
-<img src="https://ia600206.us.archive.org/22/items/imagen_mejorada_3D/LOGO%20METEOPMO.png" alt="Imagen PNG" class="imagen-principal">
+        <div class="grid-accesos">
+            <a href="https://meteoarmada.directemar.cl/" class="tarjeta-acceso" target="_blank">
+                <strong>SERVIMET</strong><br>
+                <small> Página principal </small>
+            </a>
+            <a href="https://fran5142.github.io/CONVERTIDOR-EXEL-PRONOSTICOS-QUINZONA/" class="tarjeta-acceso" target="_blank">
+                <strong>PRONOSTICOS BAHIAS</strong><br>
+                <small> Convertidor a Excel </small>
+            </a>
+            <a href="https://fran5142.github.io/CONVERTIDOR-EXEL-PRONOSTICO-CHILOE/" class="tarjeta-acceso" target="_blank">
+                <strong>CHILOE ORIENTAL</strong><br>
+                <small> Convertidor a Excel </small>
+            </a>
+            <a href="https://fran5142.github.io/ESTADISTICAS-PRONOS-MENU-INICIO-CENMETEOPMO/" class="tarjeta-acceso" target="_blank">
+                <strong>ESTADISTICAS</strong><br>
+                <small> Avisos, Apoyos y Pronosticos </small>
+            </a>
+        </div>
+    </div>
 
-<!-- Pie de página -->
-<footer>
-    Creado por Cabo º (Met.) Francisco Salas Muñoz
-</footer>
-
-</div>
+    <footer>
+        Creado por Cabo 1º (Met.) Francisco Salas Muñoz
+    </footer>
 
 </body>
 </html>
